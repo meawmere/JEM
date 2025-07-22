@@ -1,6 +1,6 @@
 # JEM (JDA Event Manager)
 
-ThiIt is an open source library designed to simplify working with JDA. It provides the possibility of preprocessing events, splitting into groups, filters, as well as convenient interaction with slash commands.
+This is an open source library designed to simplify working with JDA. It provides the possibility of preprocessing events, splitting into groups, filters, as well as convenient interaction with slash commands.
 
 ## 📖 Overview
 
