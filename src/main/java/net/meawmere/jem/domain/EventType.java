@@ -1,0 +1,495 @@
+package net.meawmere.jem.domain;
+
+import net.dv8tion.jda.api.events.ExceptionEvent;
+import net.dv8tion.jda.api.events.GatewayPingEvent;
+import net.dv8tion.jda.api.events.GenericEvent;
+import net.dv8tion.jda.api.events.RawGatewayEvent;
+import net.dv8tion.jda.api.events.StatusChangeEvent;
+import net.dv8tion.jda.api.events.UpdateEvent;
+import net.dv8tion.jda.api.events.automod.AutoModExecutionEvent;
+import net.dv8tion.jda.api.events.automod.AutoModRuleCreateEvent;
+import net.dv8tion.jda.api.events.automod.AutoModRuleDeleteEvent;
+import net.dv8tion.jda.api.events.automod.AutoModRuleUpdateEvent;
+import net.dv8tion.jda.api.events.automod.GenericAutoModRuleEvent;
+import net.dv8tion.jda.api.events.channel.ChannelCreateEvent;
+import net.dv8tion.jda.api.events.channel.ChannelDeleteEvent;
+import net.dv8tion.jda.api.events.channel.GenericChannelEvent;
+import net.dv8tion.jda.api.events.channel.forum.ForumTagAddEvent;
+import net.dv8tion.jda.api.events.channel.forum.ForumTagRemoveEvent;
+import net.dv8tion.jda.api.events.channel.forum.GenericForumTagEvent;
+import net.dv8tion.jda.api.events.channel.forum.update.ForumTagUpdateEmojiEvent;
+import net.dv8tion.jda.api.events.channel.forum.update.ForumTagUpdateModeratedEvent;
+import net.dv8tion.jda.api.events.channel.forum.update.ForumTagUpdateNameEvent;
+import net.dv8tion.jda.api.events.channel.forum.update.GenericForumTagUpdateEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateAppliedTagsEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateArchiveTimestampEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateArchivedEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateAutoArchiveDurationEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateBitrateEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateDefaultLayoutEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateDefaultReactionEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateDefaultSortOrderEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateDefaultThreadSlowmodeEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateFlagsEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateInvitableEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateLockedEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateNSFWEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateNameEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateParentEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdatePositionEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateRegionEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateSlowmodeEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateTopicEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateTypeEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateUserLimitEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateVoiceStatusEvent;
+import net.dv8tion.jda.api.events.channel.update.GenericChannelUpdateEvent;
+import net.dv8tion.jda.api.events.emoji.EmojiAddedEvent;
+import net.dv8tion.jda.api.events.emoji.EmojiRemovedEvent;
+import net.dv8tion.jda.api.events.emoji.GenericEmojiEvent;
+import net.dv8tion.jda.api.events.emoji.update.EmojiUpdateNameEvent;
+import net.dv8tion.jda.api.events.emoji.update.EmojiUpdateRolesEvent;
+import net.dv8tion.jda.api.events.emoji.update.GenericEmojiUpdateEvent;
+import net.dv8tion.jda.api.events.entitlement.EntitlementCreateEvent;
+import net.dv8tion.jda.api.events.entitlement.EntitlementDeleteEvent;
+import net.dv8tion.jda.api.events.entitlement.EntitlementUpdateEvent;
+import net.dv8tion.jda.api.events.entitlement.GenericEntitlementEvent;
+import net.dv8tion.jda.api.events.guild.GenericGuildEvent;
+import net.dv8tion.jda.api.events.guild.GuildAuditLogEntryCreateEvent;
+import net.dv8tion.jda.api.events.guild.GuildAvailableEvent;
+import net.dv8tion.jda.api.events.guild.GuildBanEvent;
+import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
+import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
+import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
+import net.dv8tion.jda.api.events.guild.GuildTimeoutEvent;
+import net.dv8tion.jda.api.events.guild.GuildUnavailableEvent;
+import net.dv8tion.jda.api.events.guild.GuildUnbanEvent;
+import net.dv8tion.jda.api.events.guild.UnavailableGuildJoinedEvent;
+import net.dv8tion.jda.api.events.guild.UnavailableGuildLeaveEvent;
+import net.dv8tion.jda.api.events.guild.invite.GenericGuildInviteEvent;
+import net.dv8tion.jda.api.events.guild.invite.GuildInviteCreateEvent;
+import net.dv8tion.jda.api.events.guild.invite.GuildInviteDeleteEvent;
+import net.dv8tion.jda.api.events.guild.member.GenericGuildMemberEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleRemoveEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberUpdateEvent;
+import net.dv8tion.jda.api.events.guild.member.update.GenericGuildMemberUpdateEvent;
+import net.dv8tion.jda.api.events.guild.member.update.GuildMemberUpdateAvatarEvent;
+import net.dv8tion.jda.api.events.guild.member.update.GuildMemberUpdateBoostTimeEvent;
+import net.dv8tion.jda.api.events.guild.member.update.GuildMemberUpdateFlagsEvent;
+import net.dv8tion.jda.api.events.guild.member.update.GuildMemberUpdateNicknameEvent;
+import net.dv8tion.jda.api.events.guild.member.update.GuildMemberUpdatePendingEvent;
+import net.dv8tion.jda.api.events.guild.member.update.GuildMemberUpdateTimeOutEvent;
+import net.dv8tion.jda.api.events.guild.override.GenericPermissionOverrideEvent;
+import net.dv8tion.jda.api.events.guild.override.PermissionOverrideCreateEvent;
+import net.dv8tion.jda.api.events.guild.override.PermissionOverrideDeleteEvent;
+import net.dv8tion.jda.api.events.guild.override.PermissionOverrideUpdateEvent;
+import net.dv8tion.jda.api.events.guild.scheduledevent.GenericScheduledEventGatewayEvent;
+import net.dv8tion.jda.api.events.guild.scheduledevent.GenericScheduledEventUserEvent;
+import net.dv8tion.jda.api.events.guild.scheduledevent.ScheduledEventCreateEvent;
+import net.dv8tion.jda.api.events.guild.scheduledevent.ScheduledEventDeleteEvent;
+import net.dv8tion.jda.api.events.guild.scheduledevent.ScheduledEventUserAddEvent;
+import net.dv8tion.jda.api.events.guild.scheduledevent.ScheduledEventUserRemoveEvent;
+import net.dv8tion.jda.api.events.guild.scheduledevent.update.GenericScheduledEventUpdateEvent;
+import net.dv8tion.jda.api.events.guild.scheduledevent.update.ScheduledEventUpdateDescriptionEvent;
+import net.dv8tion.jda.api.events.guild.scheduledevent.update.ScheduledEventUpdateEndTimeEvent;
+import net.dv8tion.jda.api.events.guild.scheduledevent.update.ScheduledEventUpdateImageEvent;
+import net.dv8tion.jda.api.events.guild.scheduledevent.update.ScheduledEventUpdateLocationEvent;
+import net.dv8tion.jda.api.events.guild.scheduledevent.update.ScheduledEventUpdateNameEvent;
+import net.dv8tion.jda.api.events.guild.scheduledevent.update.ScheduledEventUpdateStartTimeEvent;
+import net.dv8tion.jda.api.events.guild.scheduledevent.update.ScheduledEventUpdateStatusEvent;
+import net.dv8tion.jda.api.events.guild.update.GenericGuildUpdateEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateAfkChannelEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateAfkTimeoutEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateBannerEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateBoostCountEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateBoostTierEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateCommunityUpdatesChannelEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateDescriptionEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateExplicitContentLevelEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateFeaturesEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateIconEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateLocaleEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateMFALevelEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateMaxMembersEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateMaxPresencesEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateNSFWLevelEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateNameEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateNotificationLevelEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateOwnerEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateRulesChannelEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateSafetyAlertsChannelEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateSecurityIncidentActionsEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateSecurityIncidentDetectionsEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateSplashEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateSystemChannelEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateVanityCodeEvent;
+import net.dv8tion.jda.api.events.guild.update.GuildUpdateVerificationLevelEvent;
+import net.dv8tion.jda.api.events.guild.voice.GenericGuildVoiceEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceDeafenEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceGuildDeafenEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceGuildMuteEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMuteEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceRequestToSpeakEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceSelfDeafenEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceSelfMuteEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceStreamEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceSuppressEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceUpdateEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceVideoEvent;
+import net.dv8tion.jda.api.events.http.HttpRequestEvent;
+import net.dv8tion.jda.api.events.interaction.GenericAutoCompleteInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.ApplicationCommandUpdatePrivilegesEvent;
+import net.dv8tion.jda.api.events.interaction.command.ApplicationUpdatePrivilegesEvent;
+import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.GenericPrivilegeUpdateEvent;
+import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
+import net.dv8tion.jda.api.events.interaction.component.GenericSelectMenuInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
+import net.dv8tion.jda.api.events.message.GenericMessageEvent;
+import net.dv8tion.jda.api.events.message.MessageBulkDeleteEvent;
+import net.dv8tion.jda.api.events.message.MessageDeleteEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageUpdateEvent;
+import net.dv8tion.jda.api.events.message.poll.GenericMessagePollVoteEvent;
+import net.dv8tion.jda.api.events.message.poll.MessagePollVoteAddEvent;
+import net.dv8tion.jda.api.events.message.poll.MessagePollVoteRemoveEvent;
+import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveAllEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEmojiEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
+import net.dv8tion.jda.api.events.role.GenericRoleEvent;
+import net.dv8tion.jda.api.events.role.RoleCreateEvent;
+import net.dv8tion.jda.api.events.role.RoleDeleteEvent;
+import net.dv8tion.jda.api.events.role.update.GenericRoleUpdateEvent;
+import net.dv8tion.jda.api.events.role.update.RoleUpdateColorEvent;
+import net.dv8tion.jda.api.events.role.update.RoleUpdateHoistedEvent;
+import net.dv8tion.jda.api.events.role.update.RoleUpdateIconEvent;
+import net.dv8tion.jda.api.events.role.update.RoleUpdateMentionableEvent;
+import net.dv8tion.jda.api.events.role.update.RoleUpdateNameEvent;
+import net.dv8tion.jda.api.events.role.update.RoleUpdatePermissionsEvent;
+import net.dv8tion.jda.api.events.role.update.RoleUpdatePositionEvent;
+import net.dv8tion.jda.api.events.self.GenericSelfUpdateEvent;
+import net.dv8tion.jda.api.events.self.SelfUpdateAvatarEvent;
+import net.dv8tion.jda.api.events.self.SelfUpdateDiscriminatorEvent;
+import net.dv8tion.jda.api.events.self.SelfUpdateGlobalNameEvent;
+import net.dv8tion.jda.api.events.self.SelfUpdateMFAEvent;
+import net.dv8tion.jda.api.events.self.SelfUpdateNameEvent;
+import net.dv8tion.jda.api.events.self.SelfUpdateVerifiedEvent;
+import net.dv8tion.jda.api.events.session.GenericSessionEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
+import net.dv8tion.jda.api.events.session.SessionDisconnectEvent;
+import net.dv8tion.jda.api.events.session.SessionInvalidateEvent;
+import net.dv8tion.jda.api.events.session.SessionRecreateEvent;
+import net.dv8tion.jda.api.events.session.SessionResumeEvent;
+import net.dv8tion.jda.api.events.session.ShutdownEvent;
+import net.dv8tion.jda.api.events.stage.GenericStageInstanceEvent;
+import net.dv8tion.jda.api.events.stage.StageInstanceCreateEvent;
+import net.dv8tion.jda.api.events.stage.StageInstanceDeleteEvent;
+import net.dv8tion.jda.api.events.stage.update.GenericStageInstanceUpdateEvent;
+import net.dv8tion.jda.api.events.stage.update.StageInstanceUpdatePrivacyLevelEvent;
+import net.dv8tion.jda.api.events.stage.update.StageInstanceUpdateTopicEvent;
+import net.dv8tion.jda.api.events.sticker.GenericGuildStickerEvent;
+import net.dv8tion.jda.api.events.sticker.GuildStickerAddedEvent;
+import net.dv8tion.jda.api.events.sticker.GuildStickerRemovedEvent;
+import net.dv8tion.jda.api.events.sticker.update.GenericGuildStickerUpdateEvent;
+import net.dv8tion.jda.api.events.sticker.update.GuildStickerUpdateAvailableEvent;
+import net.dv8tion.jda.api.events.sticker.update.GuildStickerUpdateDescriptionEvent;
+import net.dv8tion.jda.api.events.sticker.update.GuildStickerUpdateNameEvent;
+import net.dv8tion.jda.api.events.sticker.update.GuildStickerUpdateTagsEvent;
+import net.dv8tion.jda.api.events.thread.GenericThreadEvent;
+import net.dv8tion.jda.api.events.thread.ThreadHiddenEvent;
+import net.dv8tion.jda.api.events.thread.ThreadRevealedEvent;
+import net.dv8tion.jda.api.events.thread.member.GenericThreadMemberEvent;
+import net.dv8tion.jda.api.events.thread.member.ThreadMemberJoinEvent;
+import net.dv8tion.jda.api.events.thread.member.ThreadMemberLeaveEvent;
+import net.dv8tion.jda.api.events.user.GenericUserEvent;
+import net.dv8tion.jda.api.events.user.UserActivityEndEvent;
+import net.dv8tion.jda.api.events.user.UserActivityStartEvent;
+import net.dv8tion.jda.api.events.user.UserTypingEvent;
+import net.dv8tion.jda.api.events.user.update.GenericUserPresenceEvent;
+import net.dv8tion.jda.api.events.user.update.GenericUserUpdateEvent;
+import net.dv8tion.jda.api.events.user.update.UserUpdateActivitiesEvent;
+import net.dv8tion.jda.api.events.user.update.UserUpdateActivityOrderEvent;
+import net.dv8tion.jda.api.events.user.update.UserUpdateAvatarEvent;
+import net.dv8tion.jda.api.events.user.update.UserUpdateDiscriminatorEvent;
+import net.dv8tion.jda.api.events.user.update.UserUpdateFlagsEvent;
+import net.dv8tion.jda.api.events.user.update.UserUpdateGlobalNameEvent;
+import net.dv8tion.jda.api.events.user.update.UserUpdateNameEvent;
+import net.dv8tion.jda.api.events.user.update.UserUpdateOnlineStatusEvent;
+
+import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.List;
+
+public enum EventType {
+    Generic(net.meawmere.jem.infrastructure.annotations.events.Generic.class, GenericEvent.class),
+    GenericUpdate(net.meawmere.jem.infrastructure.annotations.events.GenericUpdate.class, UpdateEvent.class),
+    RawGateway(net.meawmere.jem.infrastructure.annotations.events.RawGateway.class, RawGatewayEvent.class),
+    GatewayPing(net.meawmere.jem.infrastructure.annotations.events.GatewayPing.class, GatewayPingEvent.class),
+    Ready(net.meawmere.jem.infrastructure.annotations.events.Ready.class, ReadyEvent.class),
+    SessionInvalidate(net.meawmere.jem.infrastructure.annotations.events.SessionInvalidate.class, SessionInvalidateEvent.class),
+    SessionDisconnect(net.meawmere.jem.infrastructure.annotations.events.SessionDisconnect.class, SessionDisconnectEvent.class),
+    SessionResume(net.meawmere.jem.infrastructure.annotations.events.SessionResume.class, SessionResumeEvent.class),
+    SessionRecreate(net.meawmere.jem.infrastructure.annotations.events.SessionRecreate.class, SessionRecreateEvent.class),
+    Shutdown(net.meawmere.jem.infrastructure.annotations.events.Shutdown.class, ShutdownEvent.class),
+    StatusChange(net.meawmere.jem.infrastructure.annotations.events.StatusChange.class, StatusChangeEvent.class),
+    Exception(net.meawmere.jem.infrastructure.annotations.events.Exception.class, ExceptionEvent.class),
+    SlashCommandInteraction(net.meawmere.jem.infrastructure.annotations.events.SlashCommandInteraction.class, SlashCommandInteractionEvent.class),
+    UserContextInteraction(net.meawmere.jem.infrastructure.annotations.events.UserContextInteraction.class, UserContextInteractionEvent.class),
+    MessageContextInteraction(net.meawmere.jem.infrastructure.annotations.events.MessageContextInteraction.class, MessageContextInteractionEvent.class),
+    ButtonInteraction(net.meawmere.jem.infrastructure.annotations.events.ButtonInteraction.class, ButtonInteractionEvent.class),
+    CommandAutoCompleteInteraction(net.meawmere.jem.infrastructure.annotations.events.CommandAutoCompleteInteraction.class, CommandAutoCompleteInteractionEvent.class),
+    ModalInteraction(net.meawmere.jem.infrastructure.annotations.events.ModalInteraction.class, ModalInteractionEvent.class),
+    StringSelectInteraction(net.meawmere.jem.infrastructure.annotations.events.StringSelectInteraction.class, StringSelectInteractionEvent.class),
+    EntitySelectInteraction(net.meawmere.jem.infrastructure.annotations.events.EntitySelectInteraction.class, EntitySelectInteractionEvent.class),
+    UserUpdateName(net.meawmere.jem.infrastructure.annotations.events.UserUpdateName.class, UserUpdateNameEvent.class),
+    UserUpdateGlobalName(net.meawmere.jem.infrastructure.annotations.events.UserUpdateGlobalName.class, UserUpdateGlobalNameEvent.class),
+    UserUpdateDiscriminator(net.meawmere.jem.infrastructure.annotations.events.UserUpdateDiscriminator.class, UserUpdateDiscriminatorEvent.class),
+    UserUpdateAvatar(net.meawmere.jem.infrastructure.annotations.events.UserUpdateAvatar.class, UserUpdateAvatarEvent.class),
+    UserUpdateOnlineStatus(net.meawmere.jem.infrastructure.annotations.events.UserUpdateOnlineStatus.class, UserUpdateOnlineStatusEvent.class),
+    UserUpdateActivityOrder(net.meawmere.jem.infrastructure.annotations.events.UserUpdateActivityOrder.class, UserUpdateActivityOrderEvent.class),
+    UserUpdateFlags(net.meawmere.jem.infrastructure.annotations.events.UserUpdateFlags.class, UserUpdateFlagsEvent.class),
+    UserTyping(net.meawmere.jem.infrastructure.annotations.events.UserTyping.class, UserTypingEvent.class),
+    UserActivityStart(net.meawmere.jem.infrastructure.annotations.events.UserActivityStart.class, UserActivityStartEvent.class),
+    UserActivityEnd(net.meawmere.jem.infrastructure.annotations.events.UserActivityEnd.class, UserActivityEndEvent.class),
+    UserUpdateActivities(net.meawmere.jem.infrastructure.annotations.events.UserUpdateActivities.class, UserUpdateActivitiesEvent.class),
+    SelfUpdateAvatar(net.meawmere.jem.infrastructure.annotations.events.SelfUpdateAvatar.class, SelfUpdateAvatarEvent.class),
+    SelfUpdateMFA(net.meawmere.jem.infrastructure.annotations.events.SelfUpdateMFA.class, SelfUpdateMFAEvent.class),
+    SelfUpdateName(net.meawmere.jem.infrastructure.annotations.events.SelfUpdateName.class, SelfUpdateNameEvent.class),
+    SelfUpdateDiscriminator(net.meawmere.jem.infrastructure.annotations.events.SelfUpdateDiscriminator.class, SelfUpdateDiscriminatorEvent.class),
+    SelfUpdateGlobalName(net.meawmere.jem.infrastructure.annotations.events.SelfUpdateGlobalName.class, SelfUpdateGlobalNameEvent.class),
+    SelfUpdateVerified(net.meawmere.jem.infrastructure.annotations.events.SelfUpdateVerified.class, SelfUpdateVerifiedEvent.class),
+    MessageReceived(net.meawmere.jem.infrastructure.annotations.events.MessageReceived.class, MessageReceivedEvent.class),
+    MessageUpdate(net.meawmere.jem.infrastructure.annotations.events.MessageUpdate.class, MessageUpdateEvent.class),
+    MessageDelete(net.meawmere.jem.infrastructure.annotations.events.MessageDelete.class, MessageDeleteEvent.class),
+    MessageBulkDelete(net.meawmere.jem.infrastructure.annotations.events.MessageBulkDelete.class, MessageBulkDeleteEvent.class),
+    MessageReactionAdd(net.meawmere.jem.infrastructure.annotations.events.MessageReactionAdd.class, MessageReactionAddEvent.class),
+    MessageReactionRemove(net.meawmere.jem.infrastructure.annotations.events.MessageReactionRemove.class, MessageReactionRemoveEvent.class),
+    MessageReactionRemoveAll(net.meawmere.jem.infrastructure.annotations.events.MessageReactionRemoveAll.class, MessageReactionRemoveAllEvent.class),
+    MessageReactionRemoveEmoji(net.meawmere.jem.infrastructure.annotations.events.MessageReactionRemoveEmoji.class, MessageReactionRemoveEmojiEvent.class),
+    MessagePollVoteAdd(net.meawmere.jem.infrastructure.annotations.events.MessagePollVoteAdd.class, MessagePollVoteAddEvent.class),
+    MessagePollVoteRemove(net.meawmere.jem.infrastructure.annotations.events.MessagePollVoteRemove.class, MessagePollVoteRemoveEvent.class),
+    PermissionOverrideDelete(net.meawmere.jem.infrastructure.annotations.events.PermissionOverrideDelete.class, PermissionOverrideDeleteEvent.class),
+    PermissionOverrideUpdate(net.meawmere.jem.infrastructure.annotations.events.PermissionOverrideUpdate.class, PermissionOverrideUpdateEvent.class),
+    PermissionOverrideCreate(net.meawmere.jem.infrastructure.annotations.events.PermissionOverrideCreate.class, PermissionOverrideCreateEvent.class),
+    StageInstanceDelete(net.meawmere.jem.infrastructure.annotations.events.StageInstanceDelete.class, StageInstanceDeleteEvent.class),
+    StageInstanceUpdateTopic(net.meawmere.jem.infrastructure.annotations.events.StageInstanceUpdateTopic.class, StageInstanceUpdateTopicEvent.class),
+    StageInstanceUpdatePrivacyLevel(net.meawmere.jem.infrastructure.annotations.events.StageInstanceUpdatePrivacyLevel.class, StageInstanceUpdatePrivacyLevelEvent.class),
+    StageInstanceCreate(net.meawmere.jem.infrastructure.annotations.events.StageInstanceCreate.class, StageInstanceCreateEvent.class),
+    ChannelCreate(net.meawmere.jem.infrastructure.annotations.events.ChannelCreate.class, ChannelCreateEvent.class),
+    ChannelDelete(net.meawmere.jem.infrastructure.annotations.events.ChannelDelete.class, ChannelDeleteEvent.class),
+    ChannelUpdateBitrate(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdateBitrate.class, ChannelUpdateBitrateEvent.class),
+    ChannelUpdateName(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdateName.class, ChannelUpdateNameEvent.class),
+    ChannelUpdateFlags(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdateFlags.class, ChannelUpdateFlagsEvent.class),
+    ChannelUpdateNSFW(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdateNSFW.class, ChannelUpdateNSFWEvent.class),
+    ChannelUpdateParent(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdateParent.class, ChannelUpdateParentEvent.class),
+    ChannelUpdatePosition(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdatePosition.class, ChannelUpdatePositionEvent.class),
+    ChannelUpdateRegion(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdateRegion.class, ChannelUpdateRegionEvent.class),
+    ChannelUpdateSlowmode(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdateSlowmode.class, ChannelUpdateSlowmodeEvent.class),
+    ChannelUpdateDefaultThreadSlowmode(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdateDefaultThreadSlowmode.class, ChannelUpdateDefaultThreadSlowmodeEvent.class),
+    ChannelUpdateDefaultReaction(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdateDefaultReaction.class, ChannelUpdateDefaultReactionEvent.class),
+    ChannelUpdateDefaultSortOrder(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdateDefaultSortOrder.class, ChannelUpdateDefaultSortOrderEvent.class),
+    ChannelUpdateDefaultLayout(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdateDefaultLayout.class, ChannelUpdateDefaultLayoutEvent.class),
+    ChannelUpdateTopic(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdateTopic.class, ChannelUpdateTopicEvent.class),
+    ChannelUpdateVoiceStatus(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdateVoiceStatus.class, ChannelUpdateVoiceStatusEvent.class),
+    ChannelUpdateType(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdateType.class, ChannelUpdateTypeEvent.class),
+    ChannelUpdateUserLimit(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdateUserLimit.class, ChannelUpdateUserLimitEvent.class),
+    ChannelUpdateArchived(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdateArchived.class, ChannelUpdateArchivedEvent.class),
+    ChannelUpdateArchiveTimestamp(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdateArchiveTimestamp.class, ChannelUpdateArchiveTimestampEvent.class),
+    ChannelUpdateAutoArchiveDuration(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdateAutoArchiveDuration.class, ChannelUpdateAutoArchiveDurationEvent.class),
+    ChannelUpdateLocked(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdateLocked.class, ChannelUpdateLockedEvent.class),
+    ChannelUpdateInvitable(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdateInvitable.class, ChannelUpdateInvitableEvent.class),
+    ChannelUpdateAppliedTags(net.meawmere.jem.infrastructure.annotations.events.ChannelUpdateAppliedTags.class, ChannelUpdateAppliedTagsEvent.class),
+    ForumTagAdd(net.meawmere.jem.infrastructure.annotations.events.ForumTagAdd.class, ForumTagAddEvent.class),
+    ForumTagRemove(net.meawmere.jem.infrastructure.annotations.events.ForumTagRemove.class, ForumTagRemoveEvent.class),
+    ForumTagUpdateName(net.meawmere.jem.infrastructure.annotations.events.ForumTagUpdateName.class, ForumTagUpdateNameEvent.class),
+    ForumTagUpdateEmoji(net.meawmere.jem.infrastructure.annotations.events.ForumTagUpdateEmoji.class, ForumTagUpdateEmojiEvent.class),
+    ForumTagUpdateModerated(net.meawmere.jem.infrastructure.annotations.events.ForumTagUpdateModerated.class, ForumTagUpdateModeratedEvent.class),
+    ThreadRevealed(net.meawmere.jem.infrastructure.annotations.events.ThreadRevealed.class, ThreadRevealedEvent.class),
+    ThreadHidden(net.meawmere.jem.infrastructure.annotations.events.ThreadHidden.class, ThreadHiddenEvent.class),
+    ThreadMemberJoin(net.meawmere.jem.infrastructure.annotations.events.ThreadMemberJoin.class, ThreadMemberJoinEvent.class),
+    ThreadMemberLeave(net.meawmere.jem.infrastructure.annotations.events.ThreadMemberLeave.class, ThreadMemberLeaveEvent.class),
+    GuildReady(net.meawmere.jem.infrastructure.annotations.events.GuildReady.class, GuildReadyEvent.class),
+    GuildTimeout(net.meawmere.jem.infrastructure.annotations.events.GuildTimeout.class, GuildTimeoutEvent.class),
+    GuildJoin(net.meawmere.jem.infrastructure.annotations.events.GuildJoin.class, GuildJoinEvent.class),
+    GuildLeave(net.meawmere.jem.infrastructure.annotations.events.GuildLeave.class, GuildLeaveEvent.class),
+    GuildAvailable(net.meawmere.jem.infrastructure.annotations.events.GuildAvailable.class, GuildAvailableEvent.class),
+    GuildUnavailable(net.meawmere.jem.infrastructure.annotations.events.GuildUnavailable.class, GuildUnavailableEvent.class),
+    UnavailableGuildJoined(net.meawmere.jem.infrastructure.annotations.events.UnavailableGuildJoined.class, UnavailableGuildJoinedEvent.class),
+    UnavailableGuildLeave(net.meawmere.jem.infrastructure.annotations.events.UnavailableGuildLeave.class, UnavailableGuildLeaveEvent.class),
+    GuildBan(net.meawmere.jem.infrastructure.annotations.events.GuildBan.class, GuildBanEvent.class),
+    GuildUnban(net.meawmere.jem.infrastructure.annotations.events.GuildUnban.class, GuildUnbanEvent.class),
+    GuildAuditLogEntryCreate(net.meawmere.jem.infrastructure.annotations.events.GuildAuditLogEntryCreate.class, GuildAuditLogEntryCreateEvent.class),
+    GuildMemberRemove(net.meawmere.jem.infrastructure.annotations.events.GuildMemberRemove.class, GuildMemberRemoveEvent.class),
+    GuildUpdateAfkChannel(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateAfkChannel.class, GuildUpdateAfkChannelEvent.class),
+    GuildUpdateSystemChannel(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateSystemChannel.class, GuildUpdateSystemChannelEvent.class),
+    GuildUpdateRulesChannel(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateRulesChannel.class, GuildUpdateRulesChannelEvent.class),
+    GuildUpdateCommunityUpdatesChannel(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateCommunityUpdatesChannel.class, GuildUpdateCommunityUpdatesChannelEvent.class),
+    GuildUpdateSafetyAlertsChannel(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateSafetyAlertsChannel.class, GuildUpdateSafetyAlertsChannelEvent.class),
+    GuildUpdateAfkTimeout(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateAfkTimeout.class, GuildUpdateAfkTimeoutEvent.class),
+    GuildUpdateSecurityIncidentActions(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateSecurityIncidentActions.class, GuildUpdateSecurityIncidentActionsEvent.class),
+    GuildUpdateSecurityIncidentDetections(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateSecurityIncidentDetections.class, GuildUpdateSecurityIncidentDetectionsEvent.class),
+    GuildUpdateExplicitContentLevel(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateExplicitContentLevel.class, GuildUpdateExplicitContentLevelEvent.class),
+    GuildUpdateIcon(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateIcon.class, GuildUpdateIconEvent.class),
+    GuildUpdateMFALevel(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateMFALevel.class, GuildUpdateMFALevelEvent.class),
+    GuildUpdateName(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateName.class, GuildUpdateNameEvent.class),
+    GuildUpdateNotificationLevel(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateNotificationLevel.class, GuildUpdateNotificationLevelEvent.class),
+    GuildUpdateOwner(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateOwner.class, GuildUpdateOwnerEvent.class),
+    GuildUpdateSplash(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateSplash.class, GuildUpdateSplashEvent.class),
+    GuildUpdateVerificationLevel(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateVerificationLevel.class, GuildUpdateVerificationLevelEvent.class),
+    GuildUpdateLocale(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateLocale.class, GuildUpdateLocaleEvent.class),
+    GuildUpdateFeatures(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateFeatures.class, GuildUpdateFeaturesEvent.class),
+    GuildUpdateVanityCode(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateVanityCode.class, GuildUpdateVanityCodeEvent.class),
+    GuildUpdateBanner(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateBanner.class, GuildUpdateBannerEvent.class),
+    GuildUpdateDescription(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateDescription.class, GuildUpdateDescriptionEvent.class),
+    GuildUpdateBoostTier(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateBoostTier.class, GuildUpdateBoostTierEvent.class),
+    GuildUpdateBoostCount(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateBoostCount.class, GuildUpdateBoostCountEvent.class),
+    GuildUpdateMaxMembers(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateMaxMembers.class, GuildUpdateMaxMembersEvent.class),
+    GuildUpdateMaxPresences(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateMaxPresences.class, GuildUpdateMaxPresencesEvent.class),
+    GuildUpdateNSFWLevel(net.meawmere.jem.infrastructure.annotations.events.GuildUpdateNSFWLevel.class, GuildUpdateNSFWLevelEvent.class),
+    ScheduledEventUpdateDescription(net.meawmere.jem.infrastructure.annotations.events.ScheduledEventUpdateDescription.class, ScheduledEventUpdateDescriptionEvent.class),
+    ScheduledEventUpdateEndTime(net.meawmere.jem.infrastructure.annotations.events.ScheduledEventUpdateEndTime.class, ScheduledEventUpdateEndTimeEvent.class),
+    ScheduledEventUpdateLocation(net.meawmere.jem.infrastructure.annotations.events.ScheduledEventUpdateLocation.class, ScheduledEventUpdateLocationEvent.class),
+    ScheduledEventUpdateName(net.meawmere.jem.infrastructure.annotations.events.ScheduledEventUpdateName.class, ScheduledEventUpdateNameEvent.class),
+    ScheduledEventUpdateStartTime(net.meawmere.jem.infrastructure.annotations.events.ScheduledEventUpdateStartTime.class, ScheduledEventUpdateStartTimeEvent.class),
+    ScheduledEventUpdateStatus(net.meawmere.jem.infrastructure.annotations.events.ScheduledEventUpdateStatus.class, ScheduledEventUpdateStatusEvent.class),
+    ScheduledEventUpdateImage(net.meawmere.jem.infrastructure.annotations.events.ScheduledEventUpdateImage.class, ScheduledEventUpdateImageEvent.class),
+    ScheduledEventCreate(net.meawmere.jem.infrastructure.annotations.events.ScheduledEventCreate.class, ScheduledEventCreateEvent.class),
+    ScheduledEventDelete(net.meawmere.jem.infrastructure.annotations.events.ScheduledEventDelete.class, ScheduledEventDeleteEvent.class),
+    ScheduledEventUserAdd(net.meawmere.jem.infrastructure.annotations.events.ScheduledEventUserAdd.class, ScheduledEventUserAddEvent.class),
+    ScheduledEventUserRemove(net.meawmere.jem.infrastructure.annotations.events.ScheduledEventUserRemove.class, ScheduledEventUserRemoveEvent.class),
+    GuildInviteCreate(net.meawmere.jem.infrastructure.annotations.events.GuildInviteCreate.class, GuildInviteCreateEvent.class),
+    GuildInviteDelete(net.meawmere.jem.infrastructure.annotations.events.GuildInviteDelete.class, GuildInviteDeleteEvent.class),
+    GuildMemberJoin(net.meawmere.jem.infrastructure.annotations.events.GuildMemberJoin.class, GuildMemberJoinEvent.class),
+    GuildMemberRoleAdd(net.meawmere.jem.infrastructure.annotations.events.GuildMemberRoleAdd.class, GuildMemberRoleAddEvent.class),
+    GuildMemberRoleRemove(net.meawmere.jem.infrastructure.annotations.events.GuildMemberRoleRemove.class, GuildMemberRoleRemoveEvent.class),
+    GuildMemberUpdate(net.meawmere.jem.infrastructure.annotations.events.GuildMemberUpdate.class, GuildMemberUpdateEvent.class),
+    GuildMemberUpdateNickname(net.meawmere.jem.infrastructure.annotations.events.GuildMemberUpdateNickname.class, GuildMemberUpdateNicknameEvent.class),
+    GuildMemberUpdateAvatar(net.meawmere.jem.infrastructure.annotations.events.GuildMemberUpdateAvatar.class, GuildMemberUpdateAvatarEvent.class),
+    GuildMemberUpdateBoostTime(net.meawmere.jem.infrastructure.annotations.events.GuildMemberUpdateBoostTime.class, GuildMemberUpdateBoostTimeEvent.class),
+    GuildMemberUpdatePending(net.meawmere.jem.infrastructure.annotations.events.GuildMemberUpdatePending.class, GuildMemberUpdatePendingEvent.class),
+    GuildMemberUpdateFlags(net.meawmere.jem.infrastructure.annotations.events.GuildMemberUpdateFlags.class, GuildMemberUpdateFlagsEvent.class),
+    GuildMemberUpdateTimeOut(net.meawmere.jem.infrastructure.annotations.events.GuildMemberUpdateTimeOut.class, GuildMemberUpdateTimeOutEvent.class),
+    GuildVoiceUpdate(net.meawmere.jem.infrastructure.annotations.events.GuildVoiceUpdate.class, GuildVoiceUpdateEvent.class),
+    GuildVoiceMute(net.meawmere.jem.infrastructure.annotations.events.GuildVoiceMute.class, GuildVoiceMuteEvent.class),
+    GuildVoiceDeafen(net.meawmere.jem.infrastructure.annotations.events.GuildVoiceDeafen.class, GuildVoiceDeafenEvent.class),
+    GuildVoiceGuildMute(net.meawmere.jem.infrastructure.annotations.events.GuildVoiceGuildMute.class, GuildVoiceGuildMuteEvent.class),
+    GuildVoiceGuildDeafen(net.meawmere.jem.infrastructure.annotations.events.GuildVoiceGuildDeafen.class, GuildVoiceGuildDeafenEvent.class),
+    GuildVoiceSelfMute(net.meawmere.jem.infrastructure.annotations.events.GuildVoiceSelfMute.class, GuildVoiceSelfMuteEvent.class),
+    GuildVoiceSelfDeafen(net.meawmere.jem.infrastructure.annotations.events.GuildVoiceSelfDeafen.class, GuildVoiceSelfDeafenEvent.class),
+    GuildVoiceSuppress(net.meawmere.jem.infrastructure.annotations.events.GuildVoiceSuppress.class, GuildVoiceSuppressEvent.class),
+    GuildVoiceStream(net.meawmere.jem.infrastructure.annotations.events.GuildVoiceStream.class, GuildVoiceStreamEvent.class),
+    GuildVoiceVideo(net.meawmere.jem.infrastructure.annotations.events.GuildVoiceVideo.class, GuildVoiceVideoEvent.class),
+    GuildVoiceRequestToSpeak(net.meawmere.jem.infrastructure.annotations.events.GuildVoiceRequestToSpeak.class, GuildVoiceRequestToSpeakEvent.class),
+    AutoModExecution(net.meawmere.jem.infrastructure.annotations.events.AutoModExecution.class, AutoModExecutionEvent.class),
+    AutoModRuleCreate(net.meawmere.jem.infrastructure.annotations.events.AutoModRuleCreate.class, AutoModRuleCreateEvent.class),
+    AutoModRuleUpdate(net.meawmere.jem.infrastructure.annotations.events.AutoModRuleUpdate.class, AutoModRuleUpdateEvent.class),
+    AutoModRuleDelete(net.meawmere.jem.infrastructure.annotations.events.AutoModRuleDelete.class, AutoModRuleDeleteEvent.class),
+    RoleCreate(net.meawmere.jem.infrastructure.annotations.events.RoleCreate.class, RoleCreateEvent.class),
+    RoleDelete(net.meawmere.jem.infrastructure.annotations.events.RoleDelete.class, RoleDeleteEvent.class),
+    RoleUpdateColor(net.meawmere.jem.infrastructure.annotations.events.RoleUpdateColor.class, RoleUpdateColorEvent.class),
+    RoleUpdateHoisted(net.meawmere.jem.infrastructure.annotations.events.RoleUpdateHoisted.class, RoleUpdateHoistedEvent.class),
+    RoleUpdateIcon(net.meawmere.jem.infrastructure.annotations.events.RoleUpdateIcon.class, RoleUpdateIconEvent.class),
+    RoleUpdateMentionable(net.meawmere.jem.infrastructure.annotations.events.RoleUpdateMentionable.class, RoleUpdateMentionableEvent.class),
+    RoleUpdateName(net.meawmere.jem.infrastructure.annotations.events.RoleUpdateName.class, RoleUpdateNameEvent.class),
+    RoleUpdatePermissions(net.meawmere.jem.infrastructure.annotations.events.RoleUpdatePermissions.class, RoleUpdatePermissionsEvent.class),
+    RoleUpdatePosition(net.meawmere.jem.infrastructure.annotations.events.RoleUpdatePosition.class, RoleUpdatePositionEvent.class),
+    EmojiAdded(net.meawmere.jem.infrastructure.annotations.events.EmojiAdded.class, EmojiAddedEvent.class),
+    EmojiRemoved(net.meawmere.jem.infrastructure.annotations.events.EmojiRemoved.class, EmojiRemovedEvent.class),
+    EmojiUpdateName(net.meawmere.jem.infrastructure.annotations.events.EmojiUpdateName.class, EmojiUpdateNameEvent.class),
+    EmojiUpdateRoles(net.meawmere.jem.infrastructure.annotations.events.EmojiUpdateRoles.class, EmojiUpdateRolesEvent.class),
+    GenericPrivilegeUpdate(net.meawmere.jem.infrastructure.annotations.events.GenericPrivilegeUpdate.class, GenericPrivilegeUpdateEvent.class),
+    ApplicationCommandUpdatePrivileges(net.meawmere.jem.infrastructure.annotations.events.ApplicationCommandUpdatePrivileges.class, ApplicationCommandUpdatePrivilegesEvent.class),
+    ApplicationUpdatePrivileges(net.meawmere.jem.infrastructure.annotations.events.ApplicationUpdatePrivileges.class, ApplicationUpdatePrivilegesEvent.class),
+    GuildStickerAdded(net.meawmere.jem.infrastructure.annotations.events.GuildStickerAdded.class, GuildStickerAddedEvent.class),
+    GuildStickerRemoved(net.meawmere.jem.infrastructure.annotations.events.GuildStickerRemoved.class, GuildStickerRemovedEvent.class),
+    GuildStickerUpdateName(net.meawmere.jem.infrastructure.annotations.events.GuildStickerUpdateName.class, GuildStickerUpdateNameEvent.class),
+    GuildStickerUpdateTags(net.meawmere.jem.infrastructure.annotations.events.GuildStickerUpdateTags.class, GuildStickerUpdateTagsEvent.class),
+    GuildStickerUpdateDescription(net.meawmere.jem.infrastructure.annotations.events.GuildStickerUpdateDescription.class, GuildStickerUpdateDescriptionEvent.class),
+    GuildStickerUpdateAvailable(net.meawmere.jem.infrastructure.annotations.events.GuildStickerUpdateAvailable.class, GuildStickerUpdateAvailableEvent.class),
+    EntitlementCreate(net.meawmere.jem.infrastructure.annotations.events.EntitlementCreate.class, EntitlementCreateEvent.class),
+    EntitlementUpdate(net.meawmere.jem.infrastructure.annotations.events.EntitlementUpdate.class, EntitlementUpdateEvent.class),
+    EntitlementDelete(net.meawmere.jem.infrastructure.annotations.events.EntitlementDelete.class, EntitlementDeleteEvent.class),
+    HttpRequest(net.meawmere.jem.infrastructure.annotations.events.HttpRequest.class, HttpRequestEvent.class),
+    GenericSession(net.meawmere.jem.infrastructure.annotations.events.GenericSession.class, GenericSessionEvent.class),
+    GenericInteractionCreate(net.meawmere.jem.infrastructure.annotations.events.GenericInteractionCreate.class, GenericInteractionCreateEvent.class),
+    GenericAutoCompleteInteraction(net.meawmere.jem.infrastructure.annotations.events.GenericAutoCompleteInteraction.class, GenericAutoCompleteInteractionEvent.class),
+    GenericComponentInteractionCreate(net.meawmere.jem.infrastructure.annotations.events.GenericComponentInteractionCreate.class, GenericComponentInteractionCreateEvent.class),
+    GenericCommandInteraction(net.meawmere.jem.infrastructure.annotations.events.GenericCommandInteraction.class, GenericCommandInteractionEvent.class),
+    GenericContextInteraction(net.meawmere.jem.infrastructure.annotations.events.GenericContextInteraction.class, GenericContextInteractionEvent.class),
+    GenericSelectMenuInteraction(net.meawmere.jem.infrastructure.annotations.events.GenericSelectMenuInteraction.class, GenericSelectMenuInteractionEvent.class),
+    GenericMessage(net.meawmere.jem.infrastructure.annotations.events.GenericMessage.class, GenericMessageEvent.class),
+    GenericMessageReaction(net.meawmere.jem.infrastructure.annotations.events.GenericMessageReaction.class, GenericMessageReactionEvent.class),
+    GenericMessagePollVote(net.meawmere.jem.infrastructure.annotations.events.GenericMessagePollVote.class, GenericMessagePollVoteEvent.class),
+    GenericUser(net.meawmere.jem.infrastructure.annotations.events.GenericUser.class, GenericUserEvent.class),
+    GenericUserPresence(net.meawmere.jem.infrastructure.annotations.events.GenericUserPresence.class, GenericUserPresenceEvent.class),
+    GenericUserUpdate(net.meawmere.jem.infrastructure.annotations.events.GenericUserUpdate.class, GenericUserUpdateEvent.class),
+    GenericSelfUpdate(net.meawmere.jem.infrastructure.annotations.events.GenericSelfUpdate.class, GenericSelfUpdateEvent.class),
+    GenericStageInstance(net.meawmere.jem.infrastructure.annotations.events.GenericStageInstance.class, GenericStageInstanceEvent.class),
+    GenericStageInstanceUpdate(net.meawmere.jem.infrastructure.annotations.events.GenericStageInstanceUpdate.class, GenericStageInstanceUpdateEvent.class),
+    GenericChannel(net.meawmere.jem.infrastructure.annotations.events.GenericChannel.class, GenericChannelEvent.class),
+    GenericChannelUpdate(net.meawmere.jem.infrastructure.annotations.events.GenericChannelUpdate.class, GenericChannelUpdateEvent.class),
+    GenericThread(net.meawmere.jem.infrastructure.annotations.events.GenericThread.class, GenericThreadEvent.class),
+    GenericThreadMember(net.meawmere.jem.infrastructure.annotations.events.GenericThreadMember.class, GenericThreadMemberEvent.class),
+    GenericGuild(net.meawmere.jem.infrastructure.annotations.events.GenericGuild.class, GenericGuildEvent.class),
+    GenericGuildUpdate(net.meawmere.jem.infrastructure.annotations.events.GenericGuildUpdate.class, GenericGuildUpdateEvent.class),
+    GenericGuildInvite(net.meawmere.jem.infrastructure.annotations.events.GenericGuildInvite.class, GenericGuildInviteEvent.class),
+    GenericGuildMember(net.meawmere.jem.infrastructure.annotations.events.GenericGuildMember.class, GenericGuildMemberEvent.class),
+    GenericGuildMemberUpdate(net.meawmere.jem.infrastructure.annotations.events.GenericGuildMemberUpdate.class, GenericGuildMemberUpdateEvent.class),
+    GenericGuildVoice(net.meawmere.jem.infrastructure.annotations.events.GenericGuildVoice.class, GenericGuildVoiceEvent.class),
+    GenericAutoModRule(net.meawmere.jem.infrastructure.annotations.events.GenericAutoModRule.class, GenericAutoModRuleEvent.class),
+    GenericRole(net.meawmere.jem.infrastructure.annotations.events.GenericRole.class, GenericRoleEvent.class),
+    GenericRoleUpdate(net.meawmere.jem.infrastructure.annotations.events.GenericRoleUpdate.class, GenericRoleUpdateEvent.class),
+    GenericEmoji(net.meawmere.jem.infrastructure.annotations.events.GenericEmoji.class, GenericEmojiEvent.class),
+    GenericEmojiUpdate(net.meawmere.jem.infrastructure.annotations.events.GenericEmojiUpdate.class, GenericEmojiUpdateEvent.class),
+    GenericGuildSticker(net.meawmere.jem.infrastructure.annotations.events.GenericGuildSticker.class, GenericGuildStickerEvent.class),
+    GenericGuildStickerUpdate(net.meawmere.jem.infrastructure.annotations.events.GenericGuildStickerUpdate.class, GenericGuildStickerUpdateEvent.class),
+    GenericEntitlement(net.meawmere.jem.infrastructure.annotations.events.GenericEntitlement.class, GenericEntitlementEvent.class),
+    GenericPermissionOverride(net.meawmere.jem.infrastructure.annotations.events.GenericPermissionOverride.class, GenericPermissionOverrideEvent.class),
+    GenericScheduledEventUpdate(net.meawmere.jem.infrastructure.annotations.events.GenericScheduledEventUpdate.class, GenericScheduledEventUpdateEvent.class),
+    GenericScheduledEventGateway(net.meawmere.jem.infrastructure.annotations.events.GenericScheduledEventGateway.class, GenericScheduledEventGatewayEvent.class),
+    GenericScheduledEventUser(net.meawmere.jem.infrastructure.annotations.events.GenericScheduledEventUser.class, GenericScheduledEventUserEvent.class),
+    GenericForumTag(net.meawmere.jem.infrastructure.annotations.events.GenericForumTag.class, GenericForumTagEvent.class),
+    GenericForumTagUpdate(net.meawmere.jem.infrastructure.annotations.events.GenericForumTagUpdate.class, GenericForumTagUpdateEvent.class),
+    ;
+    
+
+    private final List<Class<? extends GenericEvent>> eventClasses = new ArrayList<>();
+    private final Class<? extends Annotation> annotation;
+    
+    EventType(Class<? extends Annotation> annotation, Class<? extends GenericEvent>... eventClass) {
+        this.annotation = annotation;
+        for (Class<? extends GenericEvent> eventClass1 : eventClass) 
+            eventClasses.add(eventClass1);
+    }
+    
+    public List<Class<? extends GenericEvent>> getEventClasses() {
+        return eventClasses;
+    }
+
+    public Class<? extends Annotation> getAnnotation() {
+        return annotation;
+    }
+
+    public static EventType findEventType(Annotation annotation) {
+        for (EventType eventType : EventType.values()) 
+            if (annotation.annotationType() == eventType.annotation)
+                return eventType;
+        
+            
+        return null;
+    }
+}
