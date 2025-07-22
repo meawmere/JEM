@@ -130,7 +130,7 @@ If you want to contribute to JEM, make sure to base your branch off of our **mas
 Please follow our [Contributing Guidelines](https://github.com/discord-jda/JDA/blob/master/.github/CONTRIBUTING.md).
 
 Do not expect your pull request to get immediate attention, sometimes it will take a long time to get a response.
-You can join our [discord server][https://discord.gg/CEkAjm762C] and ask in [#lib-dev](https://discord.com/channels/125227483518861312/869965829024915466) before starting to work on a new PR, to get more immediate feedback from our community members.
+You can join our [discord server](https://discord.gg/CEkAjm762C) and ask in [#lib-dev](https://discord.com/channels/125227483518861312/869965829024915466) before starting to work on a new PR, to get more immediate feedback from our community members.
 
 ## 🚨 Breaking Changes
 
