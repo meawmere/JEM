@@ -13,13 +13,12 @@ target/
 *.ipr
 
 src/main/java/net/meawmere/tests
-#src/main/java/net/meawmere/tests/**?
 
 **/*.txt
 **/*.py
 
 pom.xml
-
+ 
 ### Eclipse ###
 .apt_generated
 .classpath
