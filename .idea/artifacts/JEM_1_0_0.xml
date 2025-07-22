@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="JEM-1.0.0">
+    <output-path>$PROJECT_DIR$/out/artifacts/JEM_1_0_0</output-path>
+    <root id="archive" name="JEM-1.0.0.jar">
+      <element id="module-output" name="JEM" />
+    </root>
+  </artifact>
+</component>
