@@ -12,6 +12,12 @@ target/
 *.iml
 *.ipr
 
+src/main/java/net/meawmere/tests
+#src/main/java/net/meawmere/tests/**?
+
+**/*.txt
+**/*.py
+
 ### Eclipse ###
 .apt_generated
 .classpath
@@ -36,5 +42,3 @@ build/
 
 ### Mac OS ###
 .DS_Store
-
-**/*.txt
